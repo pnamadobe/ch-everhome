@@ -2,7 +2,6 @@ import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const FOOTER_PATH = '/fragments/nav/footer';
-const CONTENT_PREFIX = window.location.pathname.startsWith('/content/') ? '/content' : '';
 
 // In local preview (aem up --html-folder content) the content tree is served
 // under /content; in production it lives at the root. Prefix accordingly so the
