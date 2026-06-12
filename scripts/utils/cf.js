@@ -55,7 +55,9 @@ export async function fetchHotel(path) {
       // CORS headers if it was first fetched without an Origin (no Vary:Origin),
       // which then fails the browser's cross-origin read. A dedicated key makes the
       // first cross-origin GET populate the cache per-origin with the CORS headers.
-      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}?ck=eh1`;
+      // Bump ck when the persisted query changes, to bypass the CDN-cached
+      // response from the previous query shape.
+      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}?ck=eh2`;
       const resp = await fetch(url);
       if (!resp.ok) return null;
       const json = await resp.json();
