@@ -25,30 +25,42 @@ published fragment at runtime.
 - **Fetch helper**: `scripts/utils/cf.js` — reads a published fragment via a
   GraphQL persisted query.
 
-## Remaining setup to go live (gated — needs you / AEM admin)
+## AEM setup (done)
 
-1. **Publish the 7 fragments** (delivery tier only serves published CFs).
-2. **Create + publish a GraphQL persisted query** named `everhome-hotel-by-path`
-   under the `aem-demo-assets` config (or update `PROJECT`/`QUERY` in
-   `scripts/utils/cf.js`). It must accept a `path` parameter and return:
-   `name, eyebrow, description { plaintext }, image { _path }, ctaLabel, ctaLink`.
-   Example query body:
+1. **7 fragments published** to the publish tier.
+2. **GraphQL persisted query** `everhome-hotel-by-path` (config `aem-demo-assets`)
+   created + published. Body:
    ```graphql
    query ($path: String!) {
      everhomeHotelByPath(_path: $path) {
-       item { name eyebrow description { plaintext } image { _path } ctaLabel ctaLink }
+       item {
+         name eyebrow description { plaintext }
+         image { ... on ImageRef { _dynamicUrl _publishUrl } }
+         ctaLabel ctaLink
+       }
      }
    }
    ```
-   (Verified reachable: `/graphql/execute.json/...` is dispatcher-allowed on the
-   publish tier; the single-fragment `/adobe/sites/cf/fragments/{id}` delivery API
-   is **not** enabled here.)
-3. **CORS**: allow the EDS origin (`https://main--ch-everhome--pnamadobe.aem.live`,
-   `.aem.page`, and the production domain) on the publish tier for the GraphQL
-   endpoint.
-4. **Images**: the fragments' `image` field is empty (page images were DA media,
-   not DAM assets). Set a DAM asset on each fragment in the CF editor; the blocks
-   render the image when present.
+   (Reachable publicly: `/graphql/execute.json/...` is dispatcher-allowed on the
+   publish tier; the `/adobe/sites/cf/fragments/{id}` OpenAPI delivery is **not**
+   enabled here. To change the query: DELETE then PUT — PUT alone 409s — then
+   republish the query node.)
+3. **Images**: all 7 photos imported to `/content/dam/26H2/choicehotels/<slug>.jpg`,
+   set on each fragment's `image` field, fragments + assets published. `cf.js`
+   renders `image._publishUrl`.
+
+## How rendering works in editors vs live (no CORS change needed)
+
+AEM's publish CORS allows `*.aem.live` / `*.aem.page` but not `*.ue.da.live`, so
+the live GraphQL fetch is blocked **inside the UE/DA editor**. `cf.js` therefore
+falls back to a **same-origin snapshot** `scripts/utils/hotels.json` (no CORS) for
+the editor preview; the published site always uses live AEM data. **Keep
+`hotels.json` in sync** when fragment text/images change (it only powers the
+editor preview).
+
+> Alternative: add `*.ue.da.live` to the publish CORS allowlist (OSGi
+> `CORSPolicyImpl`, deployed via Cloud Manager) to give the editor live data too.
+> Deploy-time only on AEMaaCS; unnecessary given the snapshot.
 
 ## Wiring the page (in DA)
 
