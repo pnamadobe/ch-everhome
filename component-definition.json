@@ -1,0 +1,209 @@
+{
+  "groups": [
+    {
+      "title": "Default Content",
+      "id": "default",
+      "components": [
+        {
+          "title": "Text",
+          "id": "text",
+          "plugins": {
+            "da": {
+              "name": "text",
+              "type": "text"
+            }
+          }
+        },
+        {
+          "title": "Image",
+          "id": "image",
+          "plugins": {
+            "da": {
+              "name": "image",
+              "type": "image"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Sections",
+      "id": "sections",
+      "components": [
+        {
+          "title": "Section",
+          "id": "section",
+          "plugins": {
+            "da": {
+              "unsafeHTML": "<div></div>"
+            }
+          },
+          "filter": "section",
+          "model": "section"
+        }
+      ]
+    },
+    {
+      "title": "Blocks",
+      "id": "blocks",
+      "components": [
+        {
+          "title": "Accordion (FAQ)",
+          "id": "accordion-faq",
+          "plugins": {
+            "da": {
+              "name": "accordion-faq",
+              "unsafeHTML": "<div class=\"accordion-faq\"><div><div></div><div></div></div></div>"
+            }
+          },
+          "model": "accordion-faq",
+          "filter": "accordion-faq"
+        },
+        {
+          "title": "FAQ Item",
+          "id": "accordion-faq-item",
+          "plugins": {
+            "da": {
+              "name": "accordion-faq-item",
+              "unsafeHTML": "<div><div></div><div></div></div>"
+            }
+          },
+          "model": "accordion-faq-item"
+        },
+        {
+          "title": "Advanced Tabs",
+          "id": "advanced-tabs",
+          "plugins": {
+            "da": {
+              "name": "advanced-tabs",
+              "unsafeHTML": "<div class=\"advanced-tabs\"><div><div><ul><li>Tab 1</li><li>Tab 2</li></ul></div></div></div>"
+            }
+          },
+          "model": "advanced-tabs"
+        },
+        {
+          "title": "Card",
+          "id": "card",
+          "plugins": {
+            "da": {
+              "name": "card",
+              "unsafeHTML": "<div class=\"card\"><div></div></div>"
+            }
+          },
+          "model": "card"
+        },
+        {
+          "title": "Cards (Feature)",
+          "id": "cards-feature",
+          "plugins": {
+            "da": {
+              "name": "cards-feature",
+              "unsafeHTML": "<div class=\"cards-feature\"><div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\"></picture></div><div></div></div></div>"
+            }
+          },
+          "model": "cards-feature",
+          "filter": "cards-feature"
+        },
+        {
+          "title": "Feature Card",
+          "id": "cards-feature-card",
+          "plugins": {
+            "da": {
+              "name": "cards-feature-card",
+              "unsafeHTML": "<div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\"></picture></div><div></div></div>"
+            }
+          },
+          "model": "cards-feature-card"
+        },
+        {
+          "title": "Columns (Feature)",
+          "id": "columns-feature",
+          "plugins": {
+            "da": {
+              "name": "columns-feature",
+              "unsafeHTML": "<div class=\"columns-feature\"><div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\"></picture></div><div></div></div></div>"
+            }
+          },
+          "model": "columns-feature"
+        },
+        {
+          "title": "Columns",
+          "id": "columns",
+          "plugins": {
+            "da": {
+              "name": "columns",
+              "unsafeHTML": "<div class=\"columns\"><div><div></div><div></div></div></div>"
+            }
+          },
+          "model": "columns"
+        },
+        {
+          "title": "Fragment",
+          "id": "fragment",
+          "plugins": {
+            "da": {
+              "name": "fragment",
+              "unsafeHTML": "<div class=\"fragment\"><div><div><p><a href=\"\">Fragment URL</a></p></div></div></div>"
+            }
+          },
+          "model": "fragment"
+        },
+        {
+          "title": "Hero Video",
+          "id": "hero-video",
+          "plugins": {
+            "da": {
+              "name": "hero-video",
+              "unsafeHTML": "<div class=\"hero-video\"><div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\"></picture></div></div><div><div><h1></h1><p></p></div></div></div>"
+            }
+          },
+          "model": "hero-video"
+        },
+        {
+          "title": "Hero",
+          "id": "hero",
+          "plugins": {
+            "da": {
+              "name": "hero",
+              "unsafeHTML": "<div class=\"hero\"><div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\"></picture></div></div><div><div><h1></h1><p></p></div></div></div>"
+            }
+          },
+          "model": "hero"
+        },
+        {
+          "title": "Schedule",
+          "id": "schedule",
+          "plugins": {
+            "da": {
+              "name": "schedule",
+              "unsafeHTML": "<div class=\"schedule\"><div><div><p><a href=\"\">Schedule URL</a></p></div></div></div>"
+            }
+          },
+          "model": "schedule"
+        },
+        {
+          "title": "Table",
+          "id": "table",
+          "plugins": {
+            "da": {
+              "name": "table",
+              "unsafeHTML": "<div class=\"table\"><div></div></div>"
+            }
+          },
+          "model": "table"
+        },
+        {
+          "title": "YouTube",
+          "id": "youtube",
+          "plugins": {
+            "da": {
+              "name": "youtube",
+              "unsafeHTML": "<div class=\"youtube\"><div><div><p><a href=\"https://www.youtube.com/watch?v=\">YouTube URL</a></p></div></div></div>"
+            }
+          },
+          "model": "youtube"
+        }
+      ]
+    }
+  ]
+}

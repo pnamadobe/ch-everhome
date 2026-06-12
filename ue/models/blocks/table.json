@@ -1,0 +1,31 @@
+{
+  "definitions": [
+    {
+      "title": "Table",
+      "id": "table",
+      "plugins": {
+        "da": {
+          "name": "table",
+          "unsafeHTML": "<div class=\"table\"><div></div></div>"
+        }
+      },
+      "model": "table"
+    }
+  ],
+  "models": [
+    {
+      "id": "table",
+      "fields": [
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)",
+          "value": "",
+          "label": "Table Content",
+          "description": "First row becomes the table header"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

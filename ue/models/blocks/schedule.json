@@ -1,0 +1,29 @@
+{
+  "definitions": [
+    {
+      "title": "Schedule",
+      "id": "schedule",
+      "plugins": {
+        "da": {
+          "name": "schedule",
+          "unsafeHTML": "<div class=\"schedule\"><div><div><p><a href=\"\">Schedule URL</a></p></div></div></div>"
+        }
+      },
+      "model": "schedule"
+    }
+  ],
+  "models": [
+    {
+      "id": "schedule",
+      "fields": [
+        {
+          "component": "text",
+          "name": "div:nth-child(1)>div:nth-child(1)>p:nth-child(1)>a:nth-child(1)[href]",
+          "label": "Schedule URL",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

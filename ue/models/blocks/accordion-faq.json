@@ -1,0 +1,62 @@
+{
+  "definitions": [
+    {
+      "title": "Accordion (FAQ)",
+      "id": "accordion-faq",
+      "plugins": {
+        "da": {
+          "name": "accordion-faq",
+          "unsafeHTML": "<div class=\"accordion-faq\"><div><div></div><div></div></div></div>"
+        }
+      },
+      "model": "accordion-faq",
+      "filter": "accordion-faq"
+    },
+    {
+      "title": "FAQ Item",
+      "id": "accordion-faq-item",
+      "plugins": {
+        "da": {
+          "name": "accordion-faq-item",
+          "unsafeHTML": "<div><div></div><div></div></div>"
+        }
+      },
+      "model": "accordion-faq-item"
+    }
+  ],
+  "models": [
+    {
+      "id": "accordion-faq",
+      "fields": []
+    },
+    {
+      "id": "accordion-faq-item",
+      "fields": [
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)",
+          "value": "",
+          "label": "Question / Summary",
+          "required": true
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(2)",
+          "value": "",
+          "label": "Answer / Body",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "accordion-faq",
+      "components": [
+        "accordion-faq-item"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "definitions": [
+    {
+      "title": "Columns (Feature)",
+      "id": "columns-feature",
+      "plugins": {
+        "da": {
+          "name": "columns-feature",
+          "unsafeHTML": "<div class=\"columns-feature\"><div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\"></picture></div><div></div></div></div>"
+        }
+      },
+      "model": "columns-feature"
+    }
+  ],
+  "models": [
+    {
+      "id": "columns-feature",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "div:nth-child(1)>div:nth-child(1)>picture:nth-child(1)>img:nth-child(3)[src]",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "div:nth-child(1)>div:nth-child(1)>picture:nth-child(1)>img:nth-child(3)[alt]",
+          "label": "Image Alt"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)>div:nth-child(2)",
+          "value": "",
+          "label": "Text",
+          "description": "An uppercase first line becomes the eyebrow; a trailing link becomes the CTA"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

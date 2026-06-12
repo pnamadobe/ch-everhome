@@ -1,0 +1,45 @@
+{
+  "definitions": [
+    {
+      "title": "Columns",
+      "id": "columns",
+      "plugins": {
+        "da": {
+          "name": "columns",
+          "unsafeHTML": "<div class=\"columns\"><div><div></div><div></div></div></div>"
+        }
+      },
+      "model": "columns"
+    }
+  ],
+  "models": [
+    {
+      "id": "columns",
+      "fields": [
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)>div:nth-child(1)",
+          "value": "",
+          "label": "Column 1"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)>div:nth-child(2)",
+          "value": "",
+          "label": "Column 2"
+        },
+        {
+          "component": "multiselect",
+          "name": "classes",
+          "label": "Options",
+          "options": [
+            { "name": "Image cover", "value": "image-cover" }
+          ]
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

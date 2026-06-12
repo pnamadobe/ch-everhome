@@ -1,0 +1,29 @@
+{
+  "definitions": [
+    {
+      "title": "YouTube",
+      "id": "youtube",
+      "plugins": {
+        "da": {
+          "name": "youtube",
+          "unsafeHTML": "<div class=\"youtube\"><div><div><p><a href=\"https://www.youtube.com/watch?v=\">YouTube URL</a></p></div></div></div>"
+        }
+      },
+      "model": "youtube"
+    }
+  ],
+  "models": [
+    {
+      "id": "youtube",
+      "fields": [
+        {
+          "component": "text",
+          "name": "div:nth-child(1)>div:nth-child(1)>p:nth-child(1)>a:nth-child(1)[href]",
+          "label": "YouTube URL",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

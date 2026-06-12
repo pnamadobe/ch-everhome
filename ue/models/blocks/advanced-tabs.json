@@ -1,0 +1,31 @@
+{
+  "definitions": [
+    {
+      "title": "Advanced Tabs",
+      "id": "advanced-tabs",
+      "plugins": {
+        "da": {
+          "name": "advanced-tabs",
+          "unsafeHTML": "<div class=\"advanced-tabs\"><div><div><ul><li>Tab 1</li><li>Tab 2</li></ul></div></div></div>"
+        }
+      },
+      "model": "advanced-tabs"
+    }
+  ],
+  "models": [
+    {
+      "id": "advanced-tabs",
+      "fields": [
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)>div:nth-child(1)",
+          "value": "",
+          "label": "Tab Labels",
+          "description": "One list item per tab. Each following section in the page becomes a tab panel, in order."
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

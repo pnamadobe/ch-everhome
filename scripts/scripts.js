@@ -46,3 +46,10 @@ await loadPage();
   const hasQE = searchParams.has('quick-edit');
   if (hasQE) import('../tools/quick-edit/quick-edit.js').then((mod) => mod.default());
 }());
+
+// Universal Editor: only loads when authoring on a DA Universal Editor host.
+(function ue() {
+  if (/(^|\.)(stage-ue|ue)\.da\.live$/.test(window.location.hostname)) {
+    import('../ue/scripts/ue.js').then((mod) => mod.default());
+  }
+}());

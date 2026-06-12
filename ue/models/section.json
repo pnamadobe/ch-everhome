@@ -1,0 +1,103 @@
+{
+  "definitions": [
+    {
+      "title": "Section",
+      "id": "section",
+      "plugins": {
+        "da": {
+          "unsafeHTML": "<div></div>"
+        }
+      },
+      "filter": "section",
+      "model": "section"
+    }
+  ],
+  "models": [
+    {
+      "id": "section",
+      "fields": [
+        {
+          "component": "select",
+          "name": "grid",
+          "label": "Grid",
+          "description": "Number of grid columns",
+          "options": [
+            { "name": "None", "value": "" },
+            { "name": "1", "value": "1" },
+            { "name": "2", "value": "2" },
+            { "name": "3", "value": "3" },
+            { "name": "4", "value": "4" },
+            { "name": "5", "value": "5" },
+            { "name": "6", "value": "6" }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "gap",
+          "label": "Gap",
+          "options": [
+            { "name": "None", "value": "" },
+            { "name": "XS", "value": "xs" },
+            { "name": "S", "value": "s" },
+            { "name": "M", "value": "m" },
+            { "name": "L", "value": "l" },
+            { "name": "XL", "value": "xl" },
+            { "name": "XXL", "value": "xxl" }
+          ]
+        },
+        {
+          "component": "select",
+          "name": "spacing",
+          "label": "Spacing",
+          "options": [
+            { "name": "None", "value": "" },
+            { "name": "XS", "value": "xs" },
+            { "name": "S", "value": "s" },
+            { "name": "M", "value": "m" },
+            { "name": "L", "value": "l" },
+            { "name": "XL", "value": "xl" },
+            { "name": "XXL", "value": "xxl" }
+          ]
+        },
+        {
+          "component": "text",
+          "name": "container",
+          "label": "Container",
+          "description": "Constrain content width (e.g. a token value)"
+        },
+        {
+          "component": "text",
+          "name": "layout",
+          "label": "Layout"
+        },
+        {
+          "component": "text",
+          "name": "background",
+          "label": "Background",
+          "description": "color-token<name>, a CSS color/gradient, or an image URL"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "section",
+      "components": [
+        "text",
+        "image",
+        "hero",
+        "hero-video",
+        "accordion-faq",
+        "cards-feature",
+        "card",
+        "columns",
+        "columns-feature",
+        "table",
+        "advanced-tabs",
+        "fragment",
+        "youtube",
+        "schedule"
+      ]
+    }
+  ]
+}

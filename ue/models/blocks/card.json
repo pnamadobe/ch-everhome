@@ -1,0 +1,31 @@
+{
+  "definitions": [
+    {
+      "title": "Card",
+      "id": "card",
+      "plugins": {
+        "da": {
+          "name": "card",
+          "unsafeHTML": "<div class=\"card\"><div></div></div>"
+        }
+      },
+      "model": "card"
+    }
+  ],
+  "models": [
+    {
+      "id": "card",
+      "fields": [
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "div:nth-child(1)",
+          "value": "",
+          "label": "Content",
+          "description": "Image, heading, body text, and a trailing link become the CTA"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}
