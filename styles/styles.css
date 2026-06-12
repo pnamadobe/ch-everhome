@@ -305,6 +305,14 @@ a {
   }
 }
 
+/* Collapse stray placeholder/tracking images (empty alt, sole child of a
+   paragraph) that otherwise render at a 1200px fallback height and leave a
+   large empty gap before the footer. */
+main p:has(> img[alt=""]:only-child),
+main p:has(> picture:only-child > img[alt=""]) {
+  display: none;
+}
+
 /* "Designed with home in mind" centered intro with button CTA */
 .default-content:has(> #designed-with-home-in-mind) {
   max-width: 720px;
