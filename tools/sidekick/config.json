@@ -1,0 +1,17 @@
+{
+  "project": "Everhome Suites",
+  "plugins": [
+    {
+      "id": "quick-edit",
+      "title": "Quick Edit",
+      "environments": ["dev", "preview", "live"],
+      "event": "quick-edit"
+    },
+    {
+      "id": "scheduler",
+      "title": "Scheduler",
+      "environments": ["dev", "preview", "live"],
+      "event": "scheduler"
+    }
+  ]
+}
