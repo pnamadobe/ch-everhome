@@ -26,6 +26,31 @@ function decorateBanner(el) {
   return true;
 }
 
+// A feature row pairs an image with a text column that has a leading eyebrow
+// label above the heading. Two flavours:
+//  - featured: has a CTA link → filled button + rounded image (e.g. "Featured
+//    hotel" → heading → "Check availability").
+//  - welcome: no CTA → windowbox (inset, rounded) image + eyebrow/heading
+//    text treatment (e.g. "Closer to Home" → "Welcome to Everhome Suites").
+function decorateFeatured(el) {
+  const row = el.firstElementChild;
+  const textCol = [...row.children].find((c) => !c.querySelector('picture'));
+  if (!textCol) return;
+  const eyebrow = textCol.querySelector(':scope > p:first-child');
+  const heading = textCol.querySelector('h2, h3, h4');
+  if (!eyebrow || eyebrow.querySelector('a') || !heading) return;
+  const ctaLink = textCol.querySelector(':scope > p > a');
+
+  if (ctaLink) {
+    el.classList.add('columns-feature-featured');
+    eyebrow.classList.add('cf-featured-eyebrow');
+    ctaLink.closest('p').classList.add('cf-featured-cta');
+  } else {
+    el.classList.add('columns-feature-welcome');
+    eyebrow.classList.add('cf-welcome-eyebrow');
+  }
+}
+
 export default function init(el) {
   const cols = [...el.firstElementChild.children];
   el.classList.add(`columns-feature-${cols.length}-cols`);
@@ -44,5 +69,5 @@ export default function init(el) {
     });
   });
 
-  decorateBanner(el);
+  if (!decorateBanner(el)) decorateFeatured(el);
 }

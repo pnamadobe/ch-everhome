@@ -14,10 +14,21 @@ export default function init(el) {
         if (lastPara && lastPara.querySelector('a')) {
           lastPara.classList.add('cards-feature-card-cta');
         }
+        // A leading short paragraph above a heading is an eyebrow label.
+        const firstPara = div.querySelector(':scope > p:first-child');
+        const heading = div.querySelector('h2, h3, h4, h5, h6');
+        if (firstPara && heading && !firstPara.querySelector('a')) {
+          firstPara.classList.add('cards-feature-card-eyebrow');
+        }
       }
     });
     ul.append(li);
   });
   el.textContent = '';
   el.append(ul);
+
+  // Featured-hotel variant: cards with an eyebrow label above the heading.
+  if (ul.querySelector('.cards-feature-card-eyebrow')) {
+    el.classList.add('cards-feature-featured');
+  }
 }

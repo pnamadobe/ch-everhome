@@ -40,3 +40,47 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
+
+/* ---------- Featured-hotel variant (borderless, rounded images) ---------- */
+.cards-feature.cards-feature-featured > ul {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.cards-feature.cards-feature-featured > ul > li {
+  border: none;
+  background-color: transparent;
+  overflow: visible;
+}
+
+.cards-feature.cards-feature-featured > ul > li img {
+  border-radius: 8px;
+  aspect-ratio: 3 / 2;
+}
+
+.cards-feature.cards-feature-featured .cards-feature-card-body {
+  margin: 23px 0 0;
+}
+
+.cards-feature.cards-feature-featured .cards-feature-card-eyebrow {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #202336;
+}
+
+.cards-feature.cards-feature-featured .cards-feature-card-body h2,
+.cards-feature.cards-feature-featured .cards-feature-card-body h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #272333;
+}
+
+.cards-feature.cards-feature-featured .cards-feature-card-cta a {
+  color: #1b1b1b;
+  font-size: 16px;
+  text-decoration: underline;
+}
