@@ -1,9 +1,10 @@
-.accordion-faq details {
-  border-bottom: 1px solid #dadada;
+.accordion-faq {
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
 }
 
-.accordion-faq details:first-of-type {
-  border-top: 1px solid #dadada;
+.accordion-faq details {
+  border-bottom: 2px solid #dedede;
 }
 
 .accordion-faq details p {
@@ -12,18 +13,15 @@
 
 .accordion-faq details summary {
   position: relative;
-  padding: 18px 46px 18px 0;
+  padding: 19px 46px 19px 0;
   cursor: pointer;
   list-style: none;
   overflow: auto;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+  font-size: 24px;
   font-weight: 700;
+  line-height: 1.5;
   color: #272333;
-  transition: color 0.2s;
-}
-
-.accordion-faq details summary:focus,
-.accordion-faq details summary:hover {
-  color: #000;
 }
 
 .accordion-faq details summary::-webkit-details-marker {
@@ -36,9 +34,9 @@
   top: 50%;
   right: 8px;
   transform: translateY(-50%) rotate(135deg);
-  width: 8px;
-  height: 8px;
-  border: 2px solid;
+  width: 10px;
+  height: 10px;
+  border: solid #be5010;
   border-width: 2px 2px 0 0;
   transition: transform 0.2s;
 }
@@ -48,5 +46,31 @@
 }
 
 .accordion-faq details .accordion-faq-item-body {
-  padding: 0 0 18px;
+  padding: 0 46px 24px 0;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #272333;
+}
+
+.accordion-faq details .accordion-faq-item-body p {
+  margin: 0 0 16px;
+}
+
+/* Brand links in answers are inline text links, not buttons. */
+.accordion-faq details .accordion-faq-item-body a,
+.accordion-faq details .accordion-faq-item-body a.btn {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #272333;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media (width < 900px) {
+  .accordion-faq {
+    max-width: none;
+  }
 }

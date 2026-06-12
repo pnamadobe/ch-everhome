@@ -1,57 +1,210 @@
 footer {
-  a {
-    text-decoration: none;
-  }
-
-  .footer-content {
-    max-width: var(--grid-container-width);
-    margin: 48px auto;
-    font-size: 14px;
-  }
-
-  .section-legal ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .section-copyright p {
-    margin: 0;
-  }
-
-  .section {
-    .default-content {
-      max-width: initial;
-      margin: initial;
-    }
-  }
+  background-color: #fff;
+  color: #272333;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+  font-size: 14px;
 }
 
-@media (width >= 900px) {
-  footer {
-    margin: 0;
+footer .footer-content {
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+  padding: 48px 0;
+}
 
-    .section-legal {
-      display: flex;
-      justify-content: end;
-      gap: var(--spacing-xl);
-      margin-bottom: 24px;
+footer a {
+  color: #272333;
+  text-decoration: none;
+}
 
-      ul {
-        display: flex;
-        justify-content: end;
-        gap: var(--spacing-xl);
-      }
+footer a:hover {
+  text-decoration: underline;
+}
 
-      li {
-        margin: 0;
-      }
-    }
+footer .section {
+  display: block;
+}
 
-    .section-copyright {
-      display: flex;
-      justify-content: end;
-      gap: var(--spacing-xl);
-    }
+footer .footer-content .section .default-content {
+  max-width: none;
+  margin: 0;
+}
+
+/* ---------- Brand row: logo left, social icons right ---------- */
+footer .section-brand > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+footer .section-brand p {
+  margin: 0;
+}
+
+footer .section-brand img {
+  width: auto;
+  height: 32px;
+}
+
+footer .footer-social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer-social li {
+  margin: 0;
+}
+
+footer .footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #cfcfcf;
+  border-radius: 50%;
+}
+
+footer .footer-social a:hover {
+  border-color: #272333;
+}
+
+footer .footer-social img {
+  width: 20px;
+  height: 20px;
+}
+
+/* The YouTube icon is a filled dark circle with a white glyph. */
+footer .footer-social li:last-child a {
+  background-color: #272333;
+  border-color: #272333;
+}
+
+/* ---------- Link columns ---------- */
+footer .footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 1.2fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+
+footer .footer-column h2 {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #272333;
+}
+
+footer .footer-column ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer-column li {
+  margin: 0 0 16px;
+}
+
+footer .footer-column li a {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #272333;
+}
+
+/* Choice Privileges column */
+footer .footer-column:last-child p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+footer .footer-column .footer-cta {
+  margin-top: 8px;
+}
+
+footer .footer-column .footer-cta a {
+  display: inline-block;
+  padding: 10px 46px;
+  border-radius: 8px;
+  background-color: #ffc72c;
+  color: #272333;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+footer .footer-column .footer-cta a:hover {
+  background-color: #f0b800;
+  text-decoration: none;
+}
+
+/* ---------- Legal bar ---------- */
+footer .footer-legal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+  padding: 24px 0;
+  border-top: 1px solid #dedede;
+}
+
+footer .footer-legal-bar .section-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer-legal-bar .section-legal li {
+  margin: 0;
+}
+
+footer .footer-legal-bar .section-legal a {
+  font-size: 12px;
+  color: #272333;
+}
+
+footer .footer-legal-bar .section-copyright p {
+  margin: 0;
+  font-size: 12px;
+  color: #272333;
+  white-space: nowrap;
+}
+
+@media (width < 900px) {
+  footer .footer-content {
+    max-width: none;
+    padding: 32px 24px;
+  }
+
+  footer .section-brand > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  footer .footer-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+  }
+
+  footer .footer-legal-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+  }
+
+  footer .footer-legal-bar .section-copyright p {
+    white-space: normal;
   }
 }
