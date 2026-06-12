@@ -155,6 +155,37 @@
       margin: 0;
     }
   }
+
+  /* Logo-only hero: white tag pinned to the upper-left corner (matches source) */
+  .hero-video-foreground.has-logo-tag {
+    display: block;
+    padding: 0;
+    background: none;
+  }
+
+  .hero-video-logo {
+    position: absolute;
+    top: -1px;
+    left: 72px;
+    z-index: 2;
+    width: 244px;
+    max-width: 60%;
+    min-height: 167px;
+    background-color: #fff;
+    border-radius: 0 0 8px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 32px;
+    box-sizing: border-box;
+  }
+
+  .hero-video-logo img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
 }
 
 @media (width >= 600px) {
@@ -167,6 +198,12 @@
         width: unset;
         margin: unset;
       }
+    }
+
+    /* Logo-only hero stays full-width so the tag pins to the hero's left edge */
+    .hero-video-foreground.has-logo-tag {
+      max-width: none;
+      margin: 0;
     }
   }
 }

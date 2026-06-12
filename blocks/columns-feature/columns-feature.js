@@ -1,3 +1,31 @@
+function isUppercaseEyebrow(p) {
+  const text = p.textContent.trim();
+  if (!text || text.length > 40) return false;
+  const letters = text.replace(/[^a-zA-Z]/g, '');
+  return letters.length > 0 && text === text.toUpperCase();
+}
+
+// A promo banner is a feature row with an uppercase eyebrow label and a
+// standalone CTA link — render it as a compact dark banner (image | text | CTA).
+function decorateBanner(el) {
+  const row = el.firstElementChild;
+  const textCol = [...row.children].find((c) => !c.querySelector('picture'));
+  if (!textCol) return false;
+  const eyebrow = textCol.querySelector(':scope > p');
+  const ctaLink = textCol.querySelector(':scope > p > a');
+  if (!eyebrow || !isUppercaseEyebrow(eyebrow) || !ctaLink) return false;
+
+  el.classList.add('columns-feature-banner');
+  eyebrow.classList.add('cf-banner-eyebrow');
+  textCol.classList.add('cf-banner-text');
+
+  // Promote the CTA to a sibling so the row lays out as image | text | CTA.
+  const ctaPara = ctaLink.closest('p');
+  ctaPara.classList.add('cf-banner-cta');
+  row.append(ctaPara);
+  return true;
+}
+
 export default function init(el) {
   const cols = [...el.firstElementChild.children];
   el.classList.add(`columns-feature-${cols.length}-cols`);
@@ -15,4 +43,6 @@ export default function init(el) {
       }
     });
   });
+
+  decorateBanner(el);
 }

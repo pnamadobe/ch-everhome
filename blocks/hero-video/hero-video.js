@@ -61,7 +61,24 @@ function decorateBackground(bg) {
   vidLink.remove();
 }
 
+function decorateLogoTag(fg) {
+  // A logo-only foreground (an image with no heading/text) renders as a white
+  // tag pinned to the upper-left corner, matching the source brand hero banner.
+  const img = fg.querySelector('img');
+  if (!img) return false;
+  const hasText = fg.querySelector('h1, h2, h3, h4, h5, h6, p, ul');
+  if (hasText) return false;
+
+  const tag = document.createElement('div');
+  tag.className = 'hero-video-logo';
+  tag.append(img);
+  fg.prepend(tag);
+  fg.classList.add('has-logo-tag');
+  return true;
+}
+
 function decorateForeground(fg) {
+  if (decorateLogoTag(fg)) return;
   const { children } = fg;
   for (const [idx, child] of [...children].entries()) {
     const heading = child.querySelector('h1, h2, h3, h4, h5, h6');

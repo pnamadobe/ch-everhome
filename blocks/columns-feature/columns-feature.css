@@ -17,6 +17,9 @@
 
 .columns-feature > div > .columns-feature-img-col img {
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media (width >= 900px) {
@@ -29,5 +32,100 @@
   .columns-feature > div > div {
     flex: 1;
     order: unset;
+  }
+}
+
+/* ---------- Promo banner variant (dark compact bar) ---------- */
+.columns-feature.columns-feature-banner {
+  background-color: #202336;
+  border-radius: 8px;
+  color: #fff;
+  padding: 16px;
+}
+
+.columns-feature.columns-feature-banner > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+}
+
+.columns-feature.columns-feature-banner .columns-feature-img-col {
+  flex: 0 0 auto;
+  order: 0;
+}
+
+.columns-feature.columns-feature-banner .columns-feature-img-col img {
+  width: 256px;
+  height: 154px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-text {
+  flex: 1 1 auto;
+  order: 1;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-text > * {
+  margin: 0;
+  color: #fff;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-text > * + * {
+  margin-top: 8px;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-text h2 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-text p {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-cta {
+  flex: 0 0 auto;
+  order: 2;
+  margin: 0;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-cta a {
+  display: inline-block;
+  padding: 12px 48px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.columns-feature.columns-feature-banner .cf-banner-cta a:hover {
+  background-color: #fff;
+  color: #202336;
+}
+
+@media (width < 900px) {
+  .columns-feature.columns-feature-banner > div {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .columns-feature.columns-feature-banner .columns-feature-img-col img {
+    width: 100%;
+    height: auto;
   }
 }
