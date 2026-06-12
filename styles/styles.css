@@ -305,6 +305,102 @@ a {
   }
 }
 
+/* "Designed with home in mind" centered intro with button CTA */
+.default-content:has(> #designed-with-home-in-mind) {
+  max-width: 720px;
+  margin: 48px auto;
+  text-align: center;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+}
+
+.default-content:has(> #designed-with-home-in-mind) h2 {
+  margin: 0 0 12px;
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 40px;
+  color: #272333;
+}
+
+.default-content:has(> #designed-with-home-in-mind) > p:not(:last-child) {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: #272333;
+}
+
+.default-content:has(> #designed-with-home-in-mind) > p:last-child {
+  margin: 24px 0 0;
+}
+
+.default-content:has(> #designed-with-home-in-mind) > p:last-child a {
+  display: inline-block;
+  padding: 12px 48px;
+  border-radius: 8px;
+  background-color: #202336;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.default-content:has(> #designed-with-home-in-mind) > p:last-child a:hover {
+  background-color: #15172a;
+}
+
+/* "The Everhome Suites experience" — centered alt-mark graphic + heading */
+.default-content:has(> #the-everhome-suites-experience) {
+  max-width: var(--grid-container-width);
+  margin: 48px auto 0;
+  text-align: center;
+}
+
+.default-content:has(> #the-everhome-suites-experience) p {
+  margin: 0;
+}
+
+.default-content:has(> #the-everhome-suites-experience) img {
+  display: inline-block;
+  width: auto;
+  max-width: 320px;
+  height: auto;
+}
+
+.default-content:has(> #the-everhome-suites-experience) h2 {
+  margin: 16px 0 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #272333;
+}
+
+/* "Precisely what you need to be at your best" — full-bleed photo banner */
+h2#precisely-what-you-need-to-be-at-your-best {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  box-sizing: border-box;
+  min-height: 532px;
+  display: flex;
+  align-items: center;
+  padding-inline: max(24px, calc((100% - var(--grid-container-width, 1200px)) / 2));
+  background-image:
+    linear-gradient(90deg, rgb(39 35 51 / 90%) 0, rgb(39 35 51 / 50%) 60%, rgb(39 35 51 / 0%) 75%),
+    url("https://www.choicehotels.com/content/choicehotels/americas/us/en/everhome-suites/_jcr_content/root/main-par/hero_banner_copy_cop_1272745009/image.coreimg.82.1440.jpeg/1780436070210/id104nk2-1-copy.jpeg");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  color: #f9f7f5;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+@media (width < 900px) {
+  h2#precisely-what-you-need-to-be-at-your-best {
+    min-height: 360px;
+  }
+}
+
 main {
   ul,
   ol {

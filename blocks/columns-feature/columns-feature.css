@@ -35,8 +35,32 @@
   }
 }
 
-/* ---------- Featured variant (rounded image, eyebrow, button CTA) ---------- */
+/* ---------- Featured variant (windowbox image, eyebrow, button CTA) ---------- */
+.columns-feature.columns-feature-featured > div {
+  align-items: center;
+  gap: 48px;
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+  padding: 48px 0;
+}
+
+.columns-feature.columns-feature-featured .columns-feature-img-col {
+  position: relative;
+  padding: 24px 0 24px 24px;
+}
+
+.columns-feature.columns-feature-featured .columns-feature-img-col::before {
+  content: "";
+  position: absolute;
+  inset: 0 35% 0 0;
+  background-color: #202336;
+  border-radius: 8px;
+  z-index: 0;
+}
+
 .columns-feature.columns-feature-featured .columns-feature-img-col img {
+  position: relative;
+  z-index: 1;
   border-radius: 8px;
 }
 
@@ -71,6 +95,9 @@
 .columns-feature.columns-feature-welcome > div {
   align-items: center;
   gap: 48px;
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto;
+  padding: 48px 0;
 }
 
 /* Windowbox: a navy panel peeks out top/left/bottom behind the photo. */
@@ -120,7 +147,8 @@
 }
 
 @media (width < 900px) {
-  .columns-feature.columns-feature-welcome .columns-feature-img-col {
+  .columns-feature.columns-feature-welcome .columns-feature-img-col,
+  .columns-feature.columns-feature-featured .columns-feature-img-col {
     padding: 16px 0 16px 16px;
   }
 }
