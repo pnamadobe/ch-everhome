@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "url": "https://www.choicehotels.com/everhome-suites",
+  "path": "everhome-suites",
+  "timestamp": "2026-06-11T22:25:11.452Z",
+  "title": "Everhome SuitesTM Official Site – Book an Extended Stay Hotel",
+  "template": "everhome-suites-landing",
+  "blocks": [
+    "hero-video",
+    "columns-feature",
+    "columns-feature",
+    "columns-feature",
+    "cards-feature",
+    "cards-feature",
+    "cards-feature",
+    "accordion-faq"
+  ]
+}

@@ -1,0 +1,24 @@
+/*
+ * Accordion (FAQ) Block
+ * Recreates a collapsible FAQ accordion.
+ * https://www.hlx.live/developer/block-collection/accordion
+ */
+
+export default function init(el) {
+  [...el.children].forEach((row) => {
+    // decorate accordion item label
+    const label = row.children[0];
+    const summary = document.createElement('summary');
+    summary.className = 'accordion-faq-item-label';
+    if (label) summary.append(...label.childNodes);
+    // decorate accordion item body
+    const body = row.children[1];
+    if (body) body.className = 'accordion-faq-item-body';
+    // decorate accordion item
+    const details = document.createElement('details');
+    details.className = 'accordion-faq-item';
+    details.append(summary);
+    if (body) details.append(body);
+    row.replaceWith(details);
+  });
+}

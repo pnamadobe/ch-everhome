@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-video",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-06-11T21:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.choicehotels.com/everhome-suites",
+    "originPage": "Everhome Suites brand landing page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "video-background"
+  },
+  "contentPattern": {
+    "structure": "background video + overlaid brand logo/heading",
+    "buttonCount": 0,
+    "imageCount": 1,
+    "hasVideoBackground": true
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "brand landing page heroes with a looping background video",
+      "full-bleed hero banners with overlaid logo or headline"
+    ],
+    "notSuitableFor": [
+      "simple text heroes without a media background",
+      "side-by-side image + text intros (use columns-feature)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/everhome-suites"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-11T21:55:00.000Z"
+  },
+  "implementationNotes": "Derived from the project's local 'hero' block (uses init(el) entry and project CSS variables) rather than the boilerplate vanilla hero, because the page hero requires background-video decoration. Background row may contain a picture and/or an a[href$='.mp4'] link which is converted into an autoplaying muted <video>."
+}

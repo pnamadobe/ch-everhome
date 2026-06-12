@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-feature",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-11T21:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.choicehotels.com/everhome-suites",
+    "originPage": "Everhome Suites brand landing page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "icon-and-image"
+  },
+  "contentPattern": {
+    "structure": "grid of cards; each card = image/icon + heading + description + optional CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "amenity / feature grids (icon + title + short text)",
+      "location/property tile grids (image + title + link)",
+      "featured-hotel card grids (image + eyebrow + title + description + CTA)"
+    ],
+    "notSuitableFor": [
+      "single side-by-side image + text units (use columns-feature)",
+      "collapsible Q&A content (use accordion-faq)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/everhome-suites"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-11T21:55:00.000Z"
+  },
+  "implementationNotes": "Used for sections 5 (3 location tiles), 7 (10 amenity items) and 9 (6 featured-hotel cards). Project-native (init(el)) - does NOT import aem.js/moveInstrumentation (which do not exist in this project). Each block row becomes a card <li>; a picture-only first cell becomes cards-feature-card-image, other cells become cards-feature-card-body with a trailing link paragraph promoted to cards-feature-card-cta."
+}

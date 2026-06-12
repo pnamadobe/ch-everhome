@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "everhome-suites-landing",
+      "urls": [
+        "https://www.choicehotels.com/everhome-suites"
+      ],
+      "description": "Everhome Suites brand landing page with hero, brand overview, features, and supporting content sections",
+      "blocks": [
+        {
+          "name": "hero-video",
+          "instances": [".cmp-brand-hero-banner"]
+        },
+        {
+          "name": "columns-feature",
+          "instances": [
+            ".cmp-banner",
+            ".cmp-teaser--type-tile-left"
+          ]
+        },
+        {
+          "name": "cards-feature",
+          "instances": [".cmp-grid-container"]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [".cmp-accordion"]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-dark-banner",
+          "name": "Dark heading banner",
+          "selector": ".cmp-hero-banner",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [".cmp-hero-banner h2"]
+        }
+      ]
+    }
+  ]
+}

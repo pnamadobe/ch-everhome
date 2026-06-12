@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-feature",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-06-11T21:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.choicehotels.com/everhome-suites",
+    "originPage": "Everhome Suites brand landing page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image column + text column (eyebrow + heading + paragraph + optional CTA)",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "single promotional units with image beside text and a CTA",
+      "welcome / intro sections with a side-by-side image and copy",
+      "single featured-item spotlights"
+    ],
+    "notSuitableFor": [
+      "repeating sets of distinct items (use cards-feature)",
+      "tabular data (use table)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/everhome-suites"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-11T21:55:00.000Z"
+  },
+  "implementationNotes": "Used for sections 2 (promo banner), 3 (welcome) and 8 (featured-hotel spotlight). Project-native (init(el)). Adds columns-feature-{N}-cols and marks single-picture columns with columns-feature-img-col."
+}

@@ -1,0 +1,39 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-06-11T21:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.choicehotels.com/everhome-suites",
+    "originPage": "Everhome Suites brand landing page",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "faq",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "rows of question (title) + answer (content) toggled open/closed",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "FAQ sections",
+      "question-and-answer collapsible content",
+      "long lists of expandable detail rows"
+    ],
+    "notSuitableFor": [
+      "content that should always be fully visible",
+      "tabbed content (use advanced-tabs)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/everhome-suites"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-11T21:55:00.000Z"
+  },
+  "implementationNotes": "Used for section 11 (19 FAQ items). Project-native (init(el)) - removed the boilerplate moveInstrumentation import which does not exist in this project. Each block row (question | answer) becomes a <details> with summary.accordion-faq-item-label and div.accordion-faq-item-body. CSS uses project variables (--color-light, --color-background)."
+}
