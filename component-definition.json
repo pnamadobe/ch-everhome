@@ -171,6 +171,40 @@
           "model": "hero"
         },
         {
+          "title": "Hotel Cards",
+          "id": "hotel-cards",
+          "plugins": {
+            "da": {
+              "name": "hotel-cards",
+              "unsafeHTML": "<div class=\"hotel-cards\"><div><div></div></div></div>"
+            }
+          },
+          "model": "hotel-cards",
+          "filter": "hotel-cards"
+        },
+        {
+          "title": "Hotel Card",
+          "id": "hotel-card",
+          "plugins": {
+            "da": {
+              "name": "hotel-card",
+              "unsafeHTML": "<div><div></div></div>"
+            }
+          },
+          "model": "hotel-card"
+        },
+        {
+          "title": "Hotel (Featured)",
+          "id": "hotel",
+          "plugins": {
+            "da": {
+              "name": "hotel",
+              "unsafeHTML": "<div class=\"hotel\"><div><div></div></div></div>"
+            }
+          },
+          "model": "hotel"
+        },
+        {
           "title": "Schedule",
           "id": "schedule",
           "plugins": {

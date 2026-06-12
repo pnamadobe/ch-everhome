@@ -1,0 +1,62 @@
+{
+  "definitions": [
+    {
+      "title": "Hotel Cards",
+      "id": "hotel-cards",
+      "plugins": {
+        "da": {
+          "name": "hotel-cards",
+          "unsafeHTML": "<div class=\"hotel-cards\"><div><div></div></div></div>"
+        }
+      },
+      "model": "hotel-cards",
+      "filter": "hotel-cards"
+    },
+    {
+      "title": "Hotel Card",
+      "id": "hotel-card",
+      "plugins": {
+        "da": {
+          "name": "hotel-card",
+          "unsafeHTML": "<div><div></div></div>"
+        }
+      },
+      "model": "hotel-card"
+    }
+  ],
+  "models": [
+    {
+      "id": "hotel-cards",
+      "fields": []
+    },
+    {
+      "id": "hotel-card",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "div:nth-child(1)",
+          "label": "Hotel",
+          "description": "Pick the Everhome Hotel content fragment for this card",
+          "options": [
+            { "name": "Somerset - South Brunswick, NJ", "value": "/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick" },
+            { "name": "Stockbridge Atlanta, GA", "value": "/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta" },
+            { "name": "Panama City Beach, FL", "value": "/content/dam/26H2/choicehotels/everhome-panama-city-beach" },
+            { "name": "Georgetown - Austin, TX", "value": "/content/dam/26H2/choicehotels/everhome-georgetown-austin" },
+            { "name": "San Bernardino - Loma Linda, CA", "value": "/content/dam/26H2/choicehotels/everhome-san-bernardino-loma-linda" },
+            { "name": "San Antonio Lackland, TX", "value": "/content/dam/26H2/choicehotels/everhome-san-antonio-lackland" },
+            { "name": "Ocala I-75 North, FL", "value": "/content/dam/26H2/choicehotels/everhome-ocala-i75-north" }
+          ]
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "hotel-cards",
+      "components": [
+        "hotel-card"
+      ]
+    }
+  ]
+}

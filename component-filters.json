@@ -21,7 +21,9 @@
       "advanced-tabs",
       "fragment",
       "youtube",
-      "schedule"
+      "schedule",
+      "hotel",
+      "hotel-cards"
     ]
   },
   {
@@ -34,6 +36,12 @@
     "id": "cards-feature",
     "components": [
       "cards-feature-card"
+    ]
+  },
+  {
+    "id": "hotel-cards",
+    "components": [
+      "hotel-card"
     ]
   }
 ]
