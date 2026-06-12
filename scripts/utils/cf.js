@@ -49,9 +49,13 @@ export async function fetchHotel(path) {
 
   const promise = (async () => {
     try {
-      // AEM persisted-query variables take the raw value; the path's slashes
-      // must NOT be percent-encoded or AEM resolves the encoded string literally.
-      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}`;
+      // path: AEM persisted-query variables take the raw value; the slashes must
+      // NOT be percent-encoded or AEM resolves the encoded string literally.
+      // ck: a stable cache key. The publish-tier CDN can cache a response without
+      // CORS headers if it was first fetched without an Origin (no Vary:Origin),
+      // which then fails the browser's cross-origin read. A dedicated key makes the
+      // first cross-origin GET populate the cache per-origin with the CORS headers.
+      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}?ck=eh1`;
       const resp = await fetch(url);
       if (!resp.ok) return null;
       const json = await resp.json();
