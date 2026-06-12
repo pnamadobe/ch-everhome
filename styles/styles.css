@@ -401,6 +401,25 @@ h2#precisely-what-you-need-to-be-at-your-best {
   }
 }
 
+/* "Frequently asked questions" — section heading above the FAQ accordion */
+h2#frequently-asked-questions-about-everhome-suites {
+  max-width: var(--grid-container-width, 1200px);
+  margin: 0 auto 12px;
+  padding-left: 126px;
+  box-sizing: border-box;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 40px;
+  color: #272333;
+}
+
+@media (width < 900px) {
+  h2#frequently-asked-questions-about-everhome-suites {
+    padding-left: 0;
+  }
+}
+
 main {
   ul,
   ol {

@@ -111,6 +111,60 @@ function decorateActions(section) {
   if (signin && !signin.querySelector('img')) signin.classList.add('signin-btn');
 }
 
+// Non-functional hotel search bar that mirrors the source site's booking
+// widget. It sits between the header and the hero (top of <main>).
+function buildBookingBar() {
+  const fields = [
+    { label: 'Country/State', value: 'Select', placeholder: true, loading: true },
+    { label: 'City', value: 'Select', placeholder: true, loading: true },
+    { label: 'Check in', value: 'Fri, Jun 12' },
+    { label: 'Check out', value: 'Sat, Jun 13' },
+    { label: 'Rooms & guests', value: '1 room, 1 guest' },
+    { label: 'Rate', value: 'Best Available' },
+  ];
+
+  const bar = document.createElement('div');
+  bar.className = 'booking-bar';
+
+  const form = document.createElement('div');
+  form.className = 'booking-bar-form';
+  form.setAttribute('role', 'search');
+  form.setAttribute('aria-label', 'Search Hotels');
+
+  fields.forEach((field) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'booking-field';
+    if (field.placeholder) btn.classList.add('is-placeholder');
+    btn.setAttribute('aria-label', `${field.label}: ${field.value}`);
+
+    const label = document.createElement('span');
+    label.className = 'booking-field-label';
+    label.textContent = field.label;
+
+    const value = document.createElement('span');
+    value.className = 'booking-field-value';
+    value.textContent = field.value;
+
+    btn.append(label, value);
+    if (field.loading) {
+      const spinner = document.createElement('span');
+      spinner.className = 'booking-field-spinner';
+      btn.append(spinner);
+    }
+    form.append(btn);
+  });
+
+  const search = document.createElement('button');
+  search.type = 'button';
+  search.className = 'booking-search';
+  search.innerHTML = '<span class="booking-search-icon"></span><span>Search</span>';
+  form.append(search);
+
+  bar.append(form);
+  return bar;
+}
+
 function buildMobileToggle(header) {
   const toggle = document.createElement('button');
   toggle.className = 'nav-hamburger';
@@ -165,6 +219,12 @@ export default async function init(el) {
     const toggle = buildMobileToggle(el);
     el.append(toggle);
     el.append(fragment);
+
+    // Inject the (decorative) hotel search bar at the top of the page content.
+    const main = document.querySelector('main');
+    if (main && !main.querySelector('.booking-bar')) {
+      main.prepend(buildBookingBar());
+    }
 
     DESKTOP.addEventListener('change', () => handleViewportChange(el, toggle));
   } catch (e) {

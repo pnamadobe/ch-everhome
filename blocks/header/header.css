@@ -461,3 +461,116 @@ header.header .nav-hamburger {
     overflow: hidden;
   }
 }
+
+/* ---------- Hotel search / booking bar (decorative) ---------- */
+main > .booking-bar {
+  display: block;
+  background-color: #fff;
+}
+
+.booking-bar-form {
+  display: flex;
+  align-items: stretch;
+  max-width: var(--grid-container-width, 1200px);
+  margin: 16px auto;
+  border: 2px solid #cfcfcf;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.booking-field {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 10px 16px;
+  border: 0;
+  border-right: 1px solid #e5e5e5;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+}
+
+.booking-field-label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #6c6c74;
+}
+
+.booking-field-value {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #272333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-field.is-placeholder .booking-field-value {
+  color: #a4a4a4;
+}
+
+.booking-field-spinner {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  border: 2px solid #e5e5e5;
+  border-top-color: #a4a4a4;
+  border-radius: 50%;
+}
+
+.booking-search {
+  flex: 0 0 auto;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 12px;
+  padding: 9px 24px;
+  border: 0;
+  border-radius: 8px;
+  background-color: #ffc72c;
+  color: #272333;
+  font-family: "Work Sans", montserrat, "Trebuchet MS", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.booking-search:hover {
+  background-color: #f0b800;
+}
+
+.booking-search-icon {
+  width: 16px;
+  height: 16px;
+  background-color: currentcolor;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" fill="none" stroke="black" stroke-width="2" stroke-linecap="round"/></svg>') center / contain no-repeat;
+}
+
+@media (width < 900px) {
+  .booking-bar-form {
+    flex-wrap: wrap;
+    margin: 16px 24px;
+  }
+
+  .booking-field {
+    flex: 1 1 50%;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .booking-search {
+    flex: 1 1 100%;
+    justify-content: center;
+    margin: 12px;
+  }
+}
