@@ -1,19 +1,18 @@
 /*
- * Content Fragment fetch helper.
+ * Content Fragment fetch helper for the Hotel + Hotel Cards blocks.
  *
- * The Featured Hotel and Hotel Cards blocks render AEM Content Fragments
- * ("Everhome Hotel" model). AEM as a Cloud Service has no public single-fragment
- * JSON endpoint by default, so we read published fragments through a GraphQL
- * PERSISTED QUERY on the publish tier (the one CORS-friendly, dispatcher-allowed
- * mechanism). The persisted query must be created + published in AEM, and the
- * EDS origin allow-listed via CORS. See ue/HOTELS.md.
+ * Strategy (mirrors exp-cat-nfl's player-spotlight):
+ *  1. Live: read the published "Everhome Hotel" fragment from AEM via a GraphQL
+ *     persisted query on the publish tier. Works on the delivered site
+ *     (*.aem.page / *.aem.live are CORS-allowed by AEM).
+ *  2. Snapshot: when the live fetch is CORS-blocked — namely inside editors
+ *     (Universal Editor / DA) whose origin (*.ue.da.live) AEM's CORS doesn't
+ *     allow — fall back to ./hotels.json, served from the SAME origin as this
+ *     module, so no CORS applies. This powers the in-editor preview; the live
+ *     site always uses live AEM data.
  *
- * Adjust these constants to match the AEM setup:
- *   PUBLISH  – AEM publish tier origin
- *   PROJECT  – config that holds the persisted query (currently aem-demo-assets)
- *   QUERY    – persisted query name; must accept a `path` parameter and return
- *              name, eyebrow, description { plaintext }, image { _path },
- *              ctaLabel, ctaLink.
+ * Keep hotels.json in sync when fragment text/images change (it's only a
+ * preview snapshot; the published site doesn't depend on it).
  */
 const PUBLISH = 'https://publish-p59602-e520244.adobeaemcloud.com';
 const PROJECT = 'aem-demo-assets';
@@ -27,7 +26,7 @@ function normalize(item) {
   const description = item.description?.plaintext ?? item.description ?? '';
   // AEM GraphQL exposes content-reference fields as { _path, _publishUrl }.
   // eslint-disable-next-line no-underscore-dangle
-  const image = item.image?._path ?? item.image?._publishUrl ?? item.image ?? '';
+  const image = item.image?._publishUrl ?? item.image?._path ?? item.image ?? '';
   return {
     name: item.name ?? '',
     eyebrow: item.eyebrow ?? '',
@@ -38,39 +37,45 @@ function normalize(item) {
   };
 }
 
+// Live AEM data via the GraphQL persisted query (published site).
+async function fetchLive(path) {
+  try {
+    // path: AEM persisted-query variables take the raw value; the slashes must
+    // NOT be percent-encoded or AEM resolves the encoded string literally.
+    // ck: stable cache key (bump when the query shape changes) so the browser's
+    // first cross-origin GET populates a per-origin, CORS-correct cache entry.
+    const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}?ck=eh2`;
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    const json = await resp.json();
+    return normalize(json?.data?.everhomeHotelByPath?.item ?? json?.data?.item ?? null);
+  } catch {
+    return null;
+  }
+}
+
+// Same-origin snapshot, used only when the live fetch is blocked (editors).
+async function fetchSnapshot(path) {
+  try {
+    const resp = await fetch(new URL('./hotels.json', import.meta.url));
+    if (!resp.ok) return null;
+    const data = await resp.json();
+    return data[path] ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Fetch one Everhome Hotel content fragment by its DAM path.
+ * Fetch one Everhome Hotel content fragment by its DAM path. Tries live AEM,
+ * then the same-origin snapshot (editor preview).
  * @param {string} path e.g. /content/dam/26H2/choicehotels/everhome-...
- * @returns {Promise<object|null>} normalized hotel data, or null on failure
+ * @returns {Promise<object|null>} normalized hotel data, or null
  */
 export async function fetchHotel(path) {
   if (!path) return null;
   if (cache.has(path)) return cache.get(path);
-
-  const promise = (async () => {
-    try {
-      // path: AEM persisted-query variables take the raw value; the slashes must
-      // NOT be percent-encoded or AEM resolves the encoded string literally.
-      // ck: a stable cache key. The publish-tier CDN can cache a response without
-      // CORS headers if it was first fetched without an Origin (no Vary:Origin),
-      // which then fails the browser's cross-origin read. A dedicated key makes the
-      // first cross-origin GET populate the cache per-origin with the CORS headers.
-      // Bump ck when the persisted query changes, to bypass the CDN-cached
-      // response from the previous query shape.
-      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}?ck=eh2`;
-      const resp = await fetch(url);
-      if (!resp.ok) return null;
-      const json = await resp.json();
-      // Persisted query is expected to expose `everhomeHotelByPath { item { ... } }`.
-      const item = json?.data?.everhomeHotelByPath?.item
-        ?? json?.data?.item
-        ?? null;
-      return normalize(item);
-    } catch {
-      return null;
-    }
-  })();
-
+  const promise = (async () => (await fetchLive(path)) || fetchSnapshot(path))();
   cache.set(path, promise);
   return promise;
 }

@@ -1,0 +1,58 @@
+{
+  "/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick": {
+    "name": "Everhome Suites Somerset - South Brunswick, NJ, USA",
+    "eyebrow": "FEATURED HOTEL",
+    "description": "Everhome Suites Somerset – South Brunswick features apartment-style suites in Somerset, NJ, with full kitchens, free Wi-Fi, and weekly housekeeping, plus a convenient location near dining, shopping, and attractions just outside New York City—an ideal extended stay that's also pet-friendly.",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/new-jersey/somerset/everhome-suites-hotels/nj468"
+  },
+  "/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta": {
+    "name": "Everhome Suites Stockbridge Atlanta, GA, USA",
+    "eyebrow": "",
+    "description": "",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/georgia/stockbridge/everhome-suites-hotels/gac50"
+  },
+  "/content/dam/26H2/choicehotels/everhome-panama-city-beach": {
+    "name": "Everhome Suites Panama City Beach, FL, USA",
+    "eyebrow": "",
+    "description": "",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-panama-city-beach.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/florida/panama-city-beach/everhome-suites-hotels/flj19"
+  },
+  "/content/dam/26H2/choicehotels/everhome-georgetown-austin": {
+    "name": "Everhome Suites Georgetown - Austin, TX, USA",
+    "eyebrow": "",
+    "description": "",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-georgetown-austin.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/texas/georgetown/everhome-suites-hotels/txs02"
+  },
+  "/content/dam/26H2/choicehotels/everhome-san-bernardino-loma-linda": {
+    "name": "Everhome Suites San Bernardino - Loma Linda, CA, USA",
+    "eyebrow": "",
+    "description": "",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-san-bernardino-loma-linda.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/california/san-bernardino/everhome-suites-hotels/caj57"
+  },
+  "/content/dam/26H2/choicehotels/everhome-san-antonio-lackland": {
+    "name": "Everhome Suites San Antonio Lackland near Seaworld, TX, USA",
+    "eyebrow": "",
+    "description": "",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-san-antonio-lackland.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/texas/san-antonio/everhome-suites-hotels/txs07"
+  },
+  "/content/dam/26H2/choicehotels/everhome-ocala-i75-north": {
+    "name": "Everhome Suites Ocala I-75 North, FL, USA",
+    "eyebrow": "",
+    "description": "",
+    "image": "https://publish-p59602-e520244.adobeaemcloud.com/content/dam/26H2/choicehotels/everhome-ocala-i75-north.jpg",
+    "ctaLabel": "Check availability",
+    "ctaLink": "/florida/ocala/everhome-suites-hotels/flj18"
+  }
+}
