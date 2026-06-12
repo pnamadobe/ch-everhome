@@ -20,6 +20,12 @@ export default function init(el) {
         if (firstPara && heading && !firstPara.querySelector('a')) {
           firstPara.classList.add('cards-feature-card-eyebrow');
         }
+        // A body that is just a link (no heading/paragraph) is an image
+        // caption overlaid on the photo (location cards).
+        if (!heading && div.querySelector(':scope > a')
+          && div.textContent.trim() === div.querySelector(':scope > a').textContent.trim()) {
+          div.classList.add('cards-feature-card-caption');
+        }
       }
     });
     ul.append(li);
@@ -30,5 +36,15 @@ export default function init(el) {
   // Featured-hotel variant: cards with an eyebrow label above the heading.
   if (ul.querySelector('.cards-feature-card-eyebrow')) {
     el.classList.add('cards-feature-featured');
+  }
+  // Media-overlay variant: cards whose only body is a caption link over the image.
+  if (ul.querySelector('.cards-feature-card-caption')) {
+    el.classList.add('cards-feature-overlay');
+  }
+  // Icon-grid variant: cards using h4 headings with line-art icons (amenities).
+  if (!el.classList.contains('cards-feature-featured')
+    && !el.classList.contains('cards-feature-overlay')
+    && ul.querySelector('.cards-feature-card-body h4')) {
+    el.classList.add('cards-feature-icons');
   }
 }
