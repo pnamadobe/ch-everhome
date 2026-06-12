@@ -49,7 +49,9 @@ export async function fetchHotel(path) {
 
   const promise = (async () => {
     try {
-      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${encodeURIComponent(path)}`;
+      // AEM persisted-query variables take the raw value; the path's slashes
+      // must NOT be percent-encoded or AEM resolves the encoded string literally.
+      const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}`;
       const resp = await fetch(url);
       if (!resp.ok) return null;
       const json = await resp.json();
