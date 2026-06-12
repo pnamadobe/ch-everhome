@@ -1,25 +1,23 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { setColorScheme } from '../section-metadata/section-metadata.js';
 
 const { locale } = getConfig();
 
 const HEADER_PATH = '/fragments/nav/header';
-const HEADER_ACTIONS = [
-  '/tools/widgets/scheme',
-  '/tools/widgets/language',
-  '/tools/widgets/toggle',
-];
+const DESKTOP = window.matchMedia('(width >= 900px)');
+
+// In local preview (aem up --html-folder content) the content tree is served
+// under /content; in production it lives at the root. Prefix accordingly so the
+// fragment fetch resolves to local content instead of proxying the remote site.
+const CONTENT_PREFIX = window.location.pathname.startsWith('/content/') ? '/content' : '';
 
 function closeAllMenus() {
   const openMenus = document.body.querySelectorAll('header .is-open');
-  for (const openMenu of openMenus) {
-    openMenu.classList.remove('is-open');
-  }
+  for (const openMenu of openMenus) openMenu.classList.remove('is-open');
 }
 
 function docClose(e) {
-  if (e.target.closest('header')) return;
+  if (e.target.closest('header .is-open')) return;
   closeAllMenus();
 }
 
@@ -30,153 +28,126 @@ function toggleMenu(menu) {
     document.removeEventListener('click', docClose);
     return;
   }
-
-  // Setup the global close event
   document.addEventListener('click', docClose);
   menu.classList.add('is-open');
 }
 
-function decorateLanguage(btn) {
-  const section = btn.closest('.section');
-  btn.addEventListener('click', async () => {
-    let menu = section.querySelector('.language.menu');
+function decorateLocale(section) {
+  section.classList.add('locale-section');
+  const link = section.querySelector('p > a[href*="/tools/widgets/language"]');
+  if (!link) return;
+
+  const btn = document.createElement('button');
+  btn.className = 'locale-trigger';
+  btn.setAttribute('aria-label', 'Language Selector - United States - English');
+  while (link.firstChild) btn.append(link.firstChild);
+  link.replaceWith(btn);
+
+  btn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    let menu = section.querySelector('.locale-menu');
     if (!menu) {
-      const content = document.createElement('div');
-      content.classList.add('block-content');
-      const fragment = await loadFragment(`${locale.prefix}${HEADER_PATH}/languages`);
+      const fragment = await loadFragment(`${CONTENT_PREFIX}${locale.prefix}${HEADER_PATH}/languages`);
       menu = document.createElement('div');
-      menu.className = 'language menu';
+      menu.className = 'locale-menu';
       menu.append(fragment);
-      content.append(menu);
-      section.append(content);
+      section.querySelector('p').append(menu);
     }
     toggleMenu(section);
   });
 }
 
-function decorateScheme(btn) {
-  btn.addEventListener('click', async () => {
-    const { body } = document;
-
-    let currPref = localStorage.getItem('color-scheme');
-    if (!currPref) {
-      currPref = matchMedia('(prefers-color-scheme: dark)')
-        .matches ? 'dark-scheme' : 'light-scheme';
-    }
-
-    const theme = currPref === 'dark-scheme'
-      ? { add: 'light-scheme', remove: 'dark-scheme' }
-      : { add: 'dark-scheme', remove: 'light-scheme' };
-
-    body.classList.remove(theme.remove);
-    body.classList.add(theme.add);
-    localStorage.setItem('color-scheme', theme.add);
-    // Re-calculatie section schemes
-    const sections = document.querySelectorAll('.section');
-    for (const section of sections) {
-      setColorScheme(section);
-    }
-  });
-}
-
-function decorateNavToggle(btn) {
-  btn.addEventListener('click', () => {
-    const header = document.body.querySelector('header');
-    if (header) header.classList.toggle('is-mobile-open');
-  });
-}
-
-async function decorateAction(header, pattern) {
-  const link = header.querySelector(`[href*="${pattern}"]`);
-  if (!link) return;
-
-  const icon = link.querySelector('.icon');
-  const text = link.textContent;
-  const btn = document.createElement('button');
-  if (icon) btn.append(icon);
-  if (text) {
-    const textSpan = document.createElement('span');
-    textSpan.className = 'text';
-    textSpan.textContent = text;
-    btn.append(textSpan);
-  }
-  const wrapper = document.createElement('div');
-  wrapper.className = `action-wrapper ${icon.classList[1].replace('icon-', '')}`;
-  wrapper.append(btn);
-  link.parentElement.parentElement.replaceChild(wrapper, link.parentElement);
-
-  if (pattern === '/tools/widgets/language') decorateLanguage(btn);
-  if (pattern === '/tools/widgets/scheme') decorateScheme(btn);
-  if (pattern === '/tools/widgets/toggle') decorateNavToggle(btn);
-}
-
-function decorateMenu() {
-  // TODO: finish single menu support
-  return null;
-}
-
-function decorateMegaMenu(li) {
-  const menu = li.querySelector('.fragment-content');
-  if (!menu) return null;
-  const wrapper = document.createElement('div');
-  wrapper.className = 'mega-menu';
-  wrapper.append(menu);
-  li.append(wrapper);
-  return wrapper;
+function decorateBrand(section) {
+  section.classList.add('brand-section');
 }
 
 function decorateNavItem(li) {
   li.classList.add('main-nav-item');
   const link = li.querySelector(':scope > p > a');
   if (link) link.classList.add('main-nav-link');
-  const menu = decorateMegaMenu(li) || decorateMenu(li);
-  if (!(menu || link)) return;
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleMenu(li);
-  });
+  const submenu = li.querySelector(':scope > ul');
+  if (!submenu) return;
+
+  li.classList.add('has-dropdown');
+  submenu.classList.add('nav-dropdown');
+  if (link) {
+    link.setAttribute('aria-haspopup', 'true');
+    link.setAttribute('aria-expanded', 'false');
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const wasOpen = li.classList.contains('is-open');
+      toggleMenu(li);
+      link.setAttribute('aria-expanded', String(!wasOpen));
+    });
+  }
 }
 
-function decorateBrandSection(section) {
-  section.classList.add('brand-section');
-  const brandLink = section.querySelector('a');
-  const [, text] = brandLink.childNodes;
-  const span = document.createElement('span');
-  span.className = 'brand-text';
-  span.append(text);
-  brandLink.append(span);
-}
-
-function decorateNavSection(section) {
+function decorateNav(section) {
   section.classList.add('main-nav-section');
-  const navContent = section.querySelector('.default-content');
   const navList = section.querySelector('ul');
   if (!navList) return;
   navList.classList.add('main-nav-list');
 
   const nav = document.createElement('nav');
+  nav.setAttribute('aria-label', 'Header Main Navigation');
+  navList.replaceWith(nav);
   nav.append(navList);
-  navContent.append(nav);
 
-  const mainNavItems = section.querySelectorAll('nav > ul > li');
-  for (const navItem of mainNavItems) {
+  for (const navItem of navList.querySelectorAll(':scope > li')) {
     decorateNavItem(navItem);
   }
 }
 
-async function decorateActionSection(section) {
+function decorateUtilityLinks(section) {
+  // The first utility section holds the right-side utility links list.
+  section.classList.add('utility-links-section');
+}
+
+function decorateActions(section) {
   section.classList.add('actions-section');
+  const links = section.querySelectorAll('p > a');
+  const signin = links[links.length - 1];
+  if (signin && !signin.querySelector('img')) signin.classList.add('signin-btn');
+}
+
+function buildMobileToggle(header) {
+  const toggle = document.createElement('button');
+  toggle.className = 'nav-hamburger';
+  toggle.setAttribute('aria-label', 'Open navigation menu');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.innerHTML = '<span class="nav-hamburger-icon"></span>';
+  toggle.addEventListener('click', () => {
+    const open = header.classList.toggle('is-mobile-open');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    document.body.classList.toggle('nav-mobile-locked', open);
+  });
+  return toggle;
+}
+
+function handleViewportChange(header, toggle) {
+  if (DESKTOP.matches) {
+    header.classList.remove('is-mobile-open');
+    document.body.classList.remove('nav-mobile-locked');
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open navigation menu');
+    }
+  }
+  closeAllMenus();
 }
 
 async function decorateHeader(fragment) {
   const sections = fragment.querySelectorAll(':scope > .section');
-  if (sections[0]) decorateBrandSection(sections[0]);
-  if (sections[1]) decorateNavSection(sections[1]);
-  if (sections[2]) decorateActionSection(sections[2]);
-
-  for (const pattern of HEADER_ACTIONS) {
-    decorateAction(fragment, pattern);
+  // 4 sections: utility(0), brand(1), nav(2), actions(3)
+  if (sections[0]) {
+    decorateLocale(sections[0]);
+    decorateUtilityLinks(sections[0]);
   }
+  if (sections[1]) decorateBrand(sections[1]);
+  if (sections[2]) decorateNav(sections[2]);
+  if (sections[3]) decorateActions(sections[3]);
 }
 
 /**
@@ -187,10 +158,15 @@ export default async function init(el) {
   const headerMeta = getMetadata('header');
   const path = headerMeta || HEADER_PATH;
   try {
-    const fragment = await loadFragment(`${locale.prefix}${path}`);
+    const fragment = await loadFragment(`${CONTENT_PREFIX}${locale.prefix}${path}`);
     fragment.classList.add('header-content');
     await decorateHeader(fragment);
+
+    const toggle = buildMobileToggle(el);
+    el.append(toggle);
     el.append(fragment);
+
+    DESKTOP.addEventListener('change', () => handleViewportChange(el, toggle));
   } catch (e) {
     throw Error(e);
   }

@@ -6,6 +6,33 @@ function setBackgroundFocus(img) {
   img.style.objectPosition = `${x}% ${y}%`;
 }
 
+function buildVideoToggle(video, container) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'hero-video-toggle';
+  btn.setAttribute('aria-label', 'Pause background video');
+
+  const setState = (playing) => {
+    btn.classList.toggle('is-playing', playing);
+    btn.classList.toggle('is-paused', !playing);
+    btn.setAttribute('aria-label', playing ? 'Pause background video' : 'Play background video');
+  };
+
+  btn.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+      setState(true);
+    } else {
+      video.pause();
+      setState(false);
+    }
+  });
+
+  setState(!video.paused);
+  container.append(btn);
+  return { btn, setState };
+}
+
 function decorateBackground(bg) {
   const bgPic = bg.querySelector('picture');
   const vidLink = bg.querySelector('a[href*=".mp4"]');
@@ -20,12 +47,13 @@ function decorateBackground(bg) {
   video.src = vidLink.href;
   video.loop = true;
   video.muted = true;
-  video.inert = true;
   video.setAttribute('playsinline', '');
   video.setAttribute('preload', 'none');
   video.load();
+  const { setState } = buildVideoToggle(video, bg);
   video.addEventListener('canplay', () => {
     video.play();
+    setState(true);
     if (bgPic) bgPic.remove();
   });
   vidLink.parentElement.append(video);
