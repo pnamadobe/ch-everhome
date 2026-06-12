@@ -12,6 +12,12 @@
 
 const LOG = async (ex, el) => (await import('./utils/error.js')).default(ex, el);
 
+// The Universal Editor wraps editable regions in `richtext` and `metadata`
+// blocks for in-context editing. Author-kit has no implementation for these, so
+// don't attempt to load them as blocks (the dynamic import would 404 and surface
+// an error overlay). They render fine as plain content.
+const UE_VIRTUAL_BLOCKS = ['richtext', 'metadata'];
+
 export function getMetadata(name) {
   const attr = name && name.includes(':') ? 'property' : 'name';
   const meta = document.head.querySelector(`meta[${attr}="${name}"]`);
@@ -80,6 +86,7 @@ export async function loadBlock(block) {
   const { components } = getConfig();
   const { classList } = block;
   const name = classList[0];
+  if (UE_VIRTUAL_BLOCKS.includes(name)) return block;
   block.dataset.blockName = name;
   const opts = {
     decorate: true,
