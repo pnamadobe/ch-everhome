@@ -94,35 +94,45 @@ Both render with images + text on the live site and in the UE canvas (via the sn
 
 ---
 
-## 4. Hotel Cards per-card UE editing — diagnosed + fixed (pending verification)
+## 4. Hotel Cards per-card UE editing — root-caused + fixed (pending re-test)
 
 An earlier pass concluded per-card editing was a DA-UE limitation ("`select` inside a container child").
-**That diagnosis was wrong.** The real cause was a **bad CSS selector**, now fixed:
+**That was wrong**, and so was the first follow-up guess (a bad selector). Two findings, in order:
 
-- The block is correctly authored in DA as flat container rows (confirmed via `.plain.html`:
-  `<div><div>/content/dam/…</div></div>` × 6), so the markup was never the problem.
-- A second known-good container — **`altus-blockcode`'s `carousel`/`carousel-item`** — is a `columns:1`
-  container, proving **`columns:1` is fine**.
-- Both verified container children (`exp-cat-nfl` `card`, `altus` `carousel-item`) bind their fields to
-  the **cell `div`** (`selector: "div:nth-child(n)"`). `hotel-card` instead used `selector: "div>p"` — a
-  `<p>` that **does not exist** in a freshly-added/parsed container cell. (Only the *featured* single
-  `hotel` block has a `<p>`, because its `da.unsafeHTML` seeds one; container children have no
-  `unsafeHTML`.) So the child's `cfPath` field bound to nothing → the child never instantiated → the
-  block looked sealed. `select` itself works in DA-UE (the featured block uses it).
+**(a) Selector** — `hotel-card` bound its field with `selector: "div>p"`, a `<p>` that doesn't reliably
+exist in a container cell. Changed to **`"div:nth-child(1)"`** (the cell `div`), which UE resolves
+against the source cell with or without a `<p>`. Deployed (commit `72cc6fe`) — but the block was **still
+sealed** in a fresh-Incognito test: it renders all 6 cards and is selectable as one *Hotel Cards*
+component, but exposes no nested *Hotel Card* children. So the selector was necessary-not-sufficient.
 
-**Fix applied:** `hotel-card` child `selector` `"div>p"` → **`"div:nth-child(1)"`** (the cell), matching
-the verified pattern; the `select` dropdown is kept. Edit is in `ue/models/blocks/hotel-cards.json`;
-`npm run build:json` regenerates `component-definition.json`. The render block needs no change
-(`hotel-cards.js` reads `row.textContent`, independent of how UE binds the field).
+**(b) The real cause — dropped instrumentation.** Per this repo's own `ue/scripts/ue.js`: author-kit
+blocks restructure their DOM during decoration, which **drops the `data-aue-*` instrumentation UE injects
+on the source rows**; a `MutationObserver` re-attaches it — but it only watched `.accordion-faq,
+.cards-feature`, **not `.hotel-cards`**. And `hotel-cards.js` did `el.textContent = ''` + an async rebuild
+from the fetched fragment, destroying each card's child instrumentation with nothing to restore it → the
+cards were invisible to UE → sealed. (The *featured* single `hotel` block survives the same
+`textContent = ''` because a container's **child** instrumentation lives on the rows it deletes, while a
+single block's instrumentation is on the block element itself.) The verified `exp-cat-nfl`/boilerplate
+`cards.js` avoids this by **moving** the original cell `<div>`s into the new `<li>` (instrumentation
+rides along); ours rebuilt fresh.
 
-**Status: pending live verification.** Commit → push (the root JSON is repo *code* — the Helix code bus
-serves it on push; no DA content publish needed), then hard-reload the UE session (it caches old
-component JSON) and confirm the Hotel Cards block now exposes nested **Hotel Card** items, each with the
-Hotel dropdown.
+**Fix applied (2 files):**
+- `blocks/hotel-cards/hotel-cards.js` — rewritten to build one `<li>` per source row and call
+  **`moveInstrumentation(row, li)` synchronously, before the `await`**, then `el.replaceChildren(ul)` and
+  fill each `<li>` from the fetch. Empty/just-added cards keep a selectable placeholder shell. (Imports
+  `moveInstrumentation` from `ue/scripts/ue-utils.js`; it's a pure attribute-mover and a no-op on the
+  live site, which has no `data-aue-*`.)
+- `ue/scripts/ue.js` — added `.hotel-cards` to the observer watch list + the cards-feature row→`<li>`
+  branch, as a backup for the case where UE injects instrumentation after decoration.
 
-**Fallback (only if still sealed):** switch the `hotel-card` model field `"component": "select"` →
-`"component": "text"` (or `aem-content`) — author types/pastes the CF path. This is the exact field type
-the verified `card`/`carousel-item` children use, so it is guaranteed-editable; no block-code change.
+**Status: pending re-test.** Commit → push (the JS is repo *code* — the Helix code bus serves it on push;
+no DA publish), hard-reload the UE session, then **click an individual card** → expect *Hotel Card* in the
+breadcrumb and the Hotel dropdown in the properties rail.
+
+**If still sealed:** check the console whether each `<li class="hotel-card">` has `data-aue-resource`
+after decoration. If not, UE isn't injecting on the source rows at all → suspect the model/definition
+mapping, not the block JS. Last resort: switch the `hotel-card` model field `"component": "select"` →
+`"text"`/`aem-content` to exactly match the verified `card`/`carousel-item` field type.
 
 Other open items:
 - Optional: add `*.ue.da.live` to the publish CORS allowlist (OSGi `CORSPolicyImpl`, via Cloud Manager — deploy-time only on AEMaaCS) so the editor uses LIVE data instead of the snapshot. Unnecessary given the snapshot.
@@ -142,7 +152,7 @@ Other open items:
 | `;path=` not resolving | slashes were percent-encoded | pass the **raw** path |
 | UE dropdown empty / saved blank | model field used a raw CSS selector with no `da.fields` mapping | map a logical field (`cfPath`) via definition `da.fields` → selector, value in a `<p>` (mirror `player-spotlight`) |
 | UE editor hanging | cross-origin fetch stayed pending | 4s `AbortController` timeout on fetches |
-| Hotel Cards sealed in UE | child field `selector: "div>p"` bound to a `<p>` that doesn't exist in a container cell (no `unsafeHTML` to seed it) → child never instantiated | child `selector` → `"div:nth-child(1)"` (the cell), matching verified `card`/`carousel-item`; `select` kept — see §4 |
+| Hotel Cards sealed in UE | block JS rebuilt the DOM (`el.textContent=''` + async fetch), dropping the `data-aue-*` the editor put on each card row; `ue.js`'s re-attach observer didn't cover `.hotel-cards` | `hotel-cards.js` now `moveInstrumentation(row, li)` synchronously before the await; `.hotel-cards` added to the `ue.js` observer; child selector `"div:nth-child(1)"` — see §4 |
 
 **Reference project:** `exp-cat-nfl` (cloned at `/Users/pnam/Sandbox/exp-cat-nfl`) — its `player-spotlight`
 block is the canonical working pattern for a CF-backed, UE-pickable block on this exact DA/AEM setup.

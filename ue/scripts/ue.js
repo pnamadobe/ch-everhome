@@ -28,15 +28,17 @@
 import { moveInstrumentation } from './ue-utils.js';
 
 const setupObservers = () => {
-  const blocks = document.querySelectorAll('.accordion-faq, .cards-feature');
+  const blocks = document.querySelectorAll('.accordion-faq, .cards-feature, .hotel-cards');
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type !== 'childList') return;
-      const block = mutation.target.closest?.('.accordion-faq, .cards-feature');
+      const block = mutation.target.closest?.('.accordion-faq, .cards-feature, .hotel-cards');
       if (!block) return;
 
-      // cards-feature: each source row <div> is rebuilt as an <li>.
-      if (block.classList.contains('cards-feature')) {
+      // cards-feature / hotel-cards: each source row <div> is rebuilt as an <li>.
+      // (hotel-cards also moves instrumentation itself in its block JS; this is a
+      // backup for the case where the editor injects it after decoration.)
+      if (block.classList.contains('cards-feature') || block.classList.contains('hotel-cards')) {
         const addedUl = [...mutation.addedNodes].find((n) => n.tagName === 'UL');
         if (addedUl) {
           const removedRows = [...mutation.removedNodes].filter((n) => n.tagName === 'DIV');
