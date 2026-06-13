@@ -3,40 +3,41 @@
     {
       "title": "Hotel Cards",
       "id": "hotel-cards",
+      "model": "hotel-cards",
+      "filter": "hotel-cards",
       "plugins": {
         "da": {
           "name": "hotel-cards",
-          "unsafeHTML": "<div class=\"hotel-cards\"><div><div></div></div></div>"
+          "unsafeHTML": "<div class=\"hotel-cards\"><div><div><p>/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta</p></div></div></div>"
         }
-      },
-      "model": "hotel-cards",
-      "filter": "hotel-cards"
+      }
     },
     {
       "title": "Hotel Card",
       "id": "hotel-card",
+      "model": "hotel-card",
       "plugins": {
         "da": {
           "name": "hotel-card",
-          "unsafeHTML": "<div><div></div></div>"
+          "unsafeHTML": "<div><div><p>/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta</p></div></div>",
+          "fields": [
+            { "name": "cfPath", "selector": "div>p" }
+          ]
         }
-      },
-      "model": "hotel-card"
+      }
     }
   ],
   "models": [
-    {
-      "id": "hotel-cards",
-      "fields": []
-    },
+    { "id": "hotel-cards", "fields": [] },
     {
       "id": "hotel-card",
       "fields": [
         {
           "component": "select",
-          "valueType": "string",
-          "name": "div:nth-child(1)",
+          "name": "cfPath",
           "label": "Hotel",
+          "valueType": "string",
+          "required": true,
           "description": "Pick the Everhome Hotel content fragment for this card",
           "options": [
             { "name": "Somerset - South Brunswick, NJ", "value": "/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick" },
@@ -52,11 +53,6 @@
     }
   ],
   "filters": [
-    {
-      "id": "hotel-cards",
-      "components": [
-        "hotel-card"
-      ]
-    }
+    { "id": "hotel-cards", "components": ["hotel-card"] }
   ]
 }

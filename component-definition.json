@@ -173,36 +173,50 @@
         {
           "title": "Hotel Cards",
           "id": "hotel-cards",
+          "model": "hotel-cards",
+          "filter": "hotel-cards",
           "plugins": {
             "da": {
               "name": "hotel-cards",
-              "unsafeHTML": "<div class=\"hotel-cards\"><div><div></div></div></div>"
+              "unsafeHTML": "<div class=\"hotel-cards\"><div><div><p>/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta</p></div></div></div>"
             }
-          },
-          "model": "hotel-cards",
-          "filter": "hotel-cards"
+          }
         },
         {
           "title": "Hotel Card",
           "id": "hotel-card",
+          "model": "hotel-card",
           "plugins": {
             "da": {
               "name": "hotel-card",
-              "unsafeHTML": "<div><div></div></div>"
+              "unsafeHTML": "<div><div><p>/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta</p></div></div>",
+              "fields": [
+                {
+                  "name": "cfPath",
+                  "selector": "div>p"
+                }
+              ]
             }
-          },
-          "model": "hotel-card"
+          }
         },
         {
           "title": "Hotel (Featured)",
           "id": "hotel",
+          "model": "hotel",
           "plugins": {
             "da": {
               "name": "hotel",
-              "unsafeHTML": "<div class=\"hotel\"><div><div></div></div></div>"
+              "unsafeHTML": "<div class=\"hotel\"><div><div><p>/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick</p></div></div></div>",
+              "columns": 1,
+              "rows": 1,
+              "fields": [
+                {
+                  "name": "cfPath",
+                  "selector": "div>div>p"
+                }
+              ]
             }
-          },
-          "model": "hotel"
+          }
         },
         {
           "title": "Schedule",

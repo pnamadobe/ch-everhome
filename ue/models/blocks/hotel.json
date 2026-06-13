@@ -3,13 +3,18 @@
     {
       "title": "Hotel (Featured)",
       "id": "hotel",
+      "model": "hotel",
       "plugins": {
         "da": {
           "name": "hotel",
-          "unsafeHTML": "<div class=\"hotel\"><div><div></div></div></div>"
+          "unsafeHTML": "<div class=\"hotel\"><div><div><p>/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick</p></div></div></div>",
+          "columns": 1,
+          "rows": 1,
+          "fields": [
+            { "name": "cfPath", "selector": "div>div>p" }
+          ]
         }
-      },
-      "model": "hotel"
+      }
     }
   ],
   "models": [
@@ -18,9 +23,10 @@
       "fields": [
         {
           "component": "select",
-          "valueType": "string",
-          "name": "div:nth-child(1)>div:nth-child(1)",
+          "name": "cfPath",
           "label": "Hotel",
+          "valueType": "string",
+          "required": true,
           "description": "Pick the Everhome Hotel content fragment to feature",
           "options": [
             { "name": "Somerset - South Brunswick, NJ", "value": "/content/dam/26H2/choicehotels/everhome-somerset-south-brunswick" },

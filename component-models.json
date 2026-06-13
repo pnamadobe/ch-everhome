@@ -386,9 +386,10 @@
     "fields": [
       {
         "component": "select",
-        "valueType": "string",
-        "name": "div:nth-child(1)",
+        "name": "cfPath",
         "label": "Hotel",
+        "valueType": "string",
+        "required": true,
         "description": "Pick the Everhome Hotel content fragment for this card",
         "options": [
           {
@@ -428,9 +429,10 @@
     "fields": [
       {
         "component": "select",
-        "valueType": "string",
-        "name": "div:nth-child(1)>div:nth-child(1)",
+        "name": "cfPath",
         "label": "Hotel",
+        "valueType": "string",
+        "required": true,
         "description": "Pick the Everhome Hotel content fragment to feature",
         "options": [
           {
