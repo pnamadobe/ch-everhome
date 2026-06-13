@@ -8,7 +8,13 @@ import { fetchHotel } from '../../scripts/utils/cf.js';
  */
 export default async function init(el) {
   const paths = [...el.children]
-    .map((row) => row.textContent.trim())
+    .map((row) => {
+      // Each row's cell may be plain text, a link href, or an absolute URL.
+      const link = row.querySelector('a');
+      const raw = (link ? link.getAttribute('href') : row.textContent).trim();
+      const match = raw.match(/\/content\/dam\/[^\s"']+/);
+      return match ? match[0] : raw;
+    })
     .filter(Boolean);
   el.textContent = '';
   if (!paths.length) return;

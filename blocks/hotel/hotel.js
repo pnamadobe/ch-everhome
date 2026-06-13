@@ -8,7 +8,12 @@ import { fetchHotel } from '../../scripts/utils/cf.js';
  * description / CTA on the right.
  */
 export default async function init(el) {
-  const path = el.textContent.trim();
+  // The CF path may be plain text, a link href, or an absolute URL depending on
+  // how DA/UE authored the cell — pull out the /content/dam/... portion.
+  const link = el.querySelector('a');
+  const raw = (link ? link.getAttribute('href') : el.textContent).trim();
+  const match = raw.match(/\/content\/dam\/[^\s"']+/);
+  const path = match ? match[0] : raw;
   el.textContent = '';
   if (!path) return;
 
