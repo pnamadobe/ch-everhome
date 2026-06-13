@@ -177,8 +177,8 @@
           "filter": "hotel-cards",
           "plugins": {
             "da": {
-              "name": "hotel-cards",
-              "unsafeHTML": "<div class=\"hotel-cards\"><div><div><p>/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta</p></div></div></div>"
+              "rows": 1,
+              "columns": 1
             }
           }
         },
@@ -189,7 +189,8 @@
           "plugins": {
             "da": {
               "name": "hotel-card",
-              "unsafeHTML": "<div><div><p>/content/dam/26H2/choicehotels/everhome-stockbridge-atlanta</p></div></div>",
+              "rows": 1,
+              "columns": 1,
               "fields": [
                 {
                   "name": "cfPath",
