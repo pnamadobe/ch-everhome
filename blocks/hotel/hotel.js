@@ -7,6 +7,22 @@ import { fetchHotel } from '../../scripts/utils/cf.js';
  * columns-feature "featured" visual: image on the left, eyebrow / title /
  * description / CTA on the right.
  */
+
+// Shown when the fragment can't be resolved (e.g. live fetch CORS-blocked in an
+// editor AND no snapshot match). Keeps the block visible + surfaces the path.
+function renderPlaceholder(path) {
+  const ph = document.createElement('div');
+  ph.className = 'hotel-inner hotel-placeholder';
+  ph.innerHTML = `
+    <div class="hotel-body">
+      <p class="hotel-eyebrow">Everhome Hotel</p>
+      <h2 class="hotel-title">Content fragment</h2>
+      <p class="hotel-desc">${path || '(no path set)'}</p>
+      <p class="hotel-desc">Preview renders on the published site.</p>
+    </div>`;
+  return ph;
+}
+
 export default async function init(el) {
   // The CF path may be plain text, a link href, or an absolute URL depending on
   // how DA/UE authored the cell — pull out the /content/dam/... portion.
@@ -18,7 +34,10 @@ export default async function init(el) {
   if (!path) return;
 
   const hotel = await fetchHotel(path);
-  if (!hotel) return;
+  if (!hotel) {
+    el.append(renderPlaceholder(path));
+    return;
+  }
 
   const inner = document.createElement('div');
   inner.className = 'hotel-inner';
