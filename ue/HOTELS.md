@@ -69,8 +69,19 @@ Replace the existing Featured Hotel (`columns-feature`) and 6-card
 - a **Hotel** block (pick the featured hotel), and
 - a **Hotel Cards** block with 6 **Hotel Card** rows (pick a hotel each).
 
-In the Universal Editor each selection is a dropdown of the 7 hotels.
+In the Universal Editor each selection is a dropdown of the 7 hotels. The
+**Hotel Cards** block is a container: each nested **Hotel Card** item carries its
+own Hotel dropdown, and cards are added/removed/reordered with the container
+controls.
+
+> **Container-child selector:** the `hotel-card` field binds to the cell with
+> `selector: "div:nth-child(1)"` (the cell `div`), **not** `"div>p"`. Container
+> cells have no seeded `<p>` (unlike the featured `hotel` block, whose
+> `unsafeHTML` provides one), so a `div>p` selector binds to nothing and the
+> container shows as sealed in UE. Match the verified `card`/`carousel-item`
+> pattern and target the cell div.
 
 > If your DA Universal Editor turns out to support the `aem-content-fragment`
 > picker field, swap the `select` field in the two model files for it to get a
-> browse/search picker instead of a fixed dropdown.
+> browse/search picker instead of a fixed dropdown. (Same one-line swap is the
+> fallback if `select` inside a container child proves unsupported: use `text`.)

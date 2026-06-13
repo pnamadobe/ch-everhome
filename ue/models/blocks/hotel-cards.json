@@ -22,7 +22,7 @@
           "rows": 1,
           "columns": 1,
           "fields": [
-            { "name": "cfPath", "selector": "div>p" }
+            { "name": "cfPath", "selector": "div:nth-child(1)" }
           ]
         }
       }

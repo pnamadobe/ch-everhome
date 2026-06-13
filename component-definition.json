@@ -194,7 +194,7 @@
               "fields": [
                 {
                   "name": "cfPath",
-                  "selector": "div>p"
+                  "selector": "div:nth-child(1)"
                 }
               ]
             }

@@ -86,24 +86,43 @@ https://publish-p59602-e520244.adobeaemcloud.com/graphql/execute.json/aem-demo-a
 - DA: a 1-column block table `| hotel |` then a row with the CF path.
 - UE: select the **Hotel (Featured)** block → **Hotel** dropdown → pick a hotel. ✅ Works (binds + renders).
 
-**6-card grid** (`hotel-cards` block) — author/manage in **DA** (see limitation below):
-- DA: a 1-column table, header `hotel-cards`, then one CF path per row (one card each). Add/remove/reorder/swap by editing rows.
+**6-card grid** (`hotel-cards` block) — a UE container of **Hotel Card** children (per-card selector fix in §4, pending live verify):
+- UE: select **Hotel Cards** → each nested **Hotel Card** has a **Hotel** dropdown; add/remove/reorder cards with the container's `+`/drag controls.
+- DA (always works): a 1-column table, header `hotel-cards`, one CF path per row (one card each). Add/remove/reorder/swap by editing rows.
 
 Both render with images + text on the live site and in the UE canvas (via the snapshot).
 
 ---
 
-## 4. Known limitation / open item
+## 4. Hotel Cards per-card UE editing — diagnosed + fixed (pending verification)
 
-**Per-card editing of the Hotel Cards grid is NOT exposed in the Universal Editor.** The block renders
-all cards fine, but UE shows it as a sealed component (no nested "Hotel Card" items, no dropdown).
-Tried both `unsafeHTML` and `rows`/`columns` container configs — neither exposes the children. Likely a
-DA-UE limitation for a **`select` field inside a container child** (the working `exp-cat-nfl` `cards`
-container uses text/image fields; its `select` only appears on a *single* block, `player-spotlight`).
+An earlier pass concluded per-card editing was a DA-UE limitation ("`select` inside a container child").
+**That diagnosis was wrong.** The real cause was a **bad CSS selector**, now fixed:
 
-**Workaround in use:** manage the card grid by editing the path rows in the **DA table** (reliable).
-**To pursue UE per-card editing:** ask the DA/UE team whether `select` (or `aem-content-fragment`) is
-supported on container children in DA — not worth more blind config attempts.
+- The block is correctly authored in DA as flat container rows (confirmed via `.plain.html`:
+  `<div><div>/content/dam/…</div></div>` × 6), so the markup was never the problem.
+- A second known-good container — **`altus-blockcode`'s `carousel`/`carousel-item`** — is a `columns:1`
+  container, proving **`columns:1` is fine**.
+- Both verified container children (`exp-cat-nfl` `card`, `altus` `carousel-item`) bind their fields to
+  the **cell `div`** (`selector: "div:nth-child(n)"`). `hotel-card` instead used `selector: "div>p"` — a
+  `<p>` that **does not exist** in a freshly-added/parsed container cell. (Only the *featured* single
+  `hotel` block has a `<p>`, because its `da.unsafeHTML` seeds one; container children have no
+  `unsafeHTML`.) So the child's `cfPath` field bound to nothing → the child never instantiated → the
+  block looked sealed. `select` itself works in DA-UE (the featured block uses it).
+
+**Fix applied:** `hotel-card` child `selector` `"div>p"` → **`"div:nth-child(1)"`** (the cell), matching
+the verified pattern; the `select` dropdown is kept. Edit is in `ue/models/blocks/hotel-cards.json`;
+`npm run build:json` regenerates `component-definition.json`. The render block needs no change
+(`hotel-cards.js` reads `row.textContent`, independent of how UE binds the field).
+
+**Status: pending live verification.** Commit → push (the root JSON is repo *code* — the Helix code bus
+serves it on push; no DA content publish needed), then hard-reload the UE session (it caches old
+component JSON) and confirm the Hotel Cards block now exposes nested **Hotel Card** items, each with the
+Hotel dropdown.
+
+**Fallback (only if still sealed):** switch the `hotel-card` model field `"component": "select"` →
+`"component": "text"` (or `aem-content`) — author types/pastes the CF path. This is the exact field type
+the verified `card`/`carousel-item` children use, so it is guaranteed-editable; no block-code change.
 
 Other open items:
 - Optional: add `*.ue.da.live` to the publish CORS allowlist (OSGi `CORSPolicyImpl`, via Cloud Manager — deploy-time only on AEMaaCS) so the editor uses LIVE data instead of the snapshot. Unnecessary given the snapshot.
@@ -123,7 +142,7 @@ Other open items:
 | `;path=` not resolving | slashes were percent-encoded | pass the **raw** path |
 | UE dropdown empty / saved blank | model field used a raw CSS selector with no `da.fields` mapping | map a logical field (`cfPath`) via definition `da.fields` → selector, value in a `<p>` (mirror `player-spotlight`) |
 | UE editor hanging | cross-origin fetch stayed pending | 4s `AbortController` timeout on fetches |
-| Hotel Cards sealed in UE | container used `unsafeHTML` | container uses `da {rows,columns}` (still didn't expose children — see limitation) |
+| Hotel Cards sealed in UE | child field `selector: "div>p"` bound to a `<p>` that doesn't exist in a container cell (no `unsafeHTML` to seed it) → child never instantiated | child `selector` → `"div:nth-child(1)"` (the cell), matching verified `card`/`carousel-item`; `select` kept — see §4 |
 
 **Reference project:** `exp-cat-nfl` (cloned at `/Users/pnam/Sandbox/exp-cat-nfl`) — its `player-spotlight`
 block is the canonical working pattern for a CF-backed, UE-pickable block on this exact DA/AEM setup.
@@ -137,6 +156,7 @@ block is the canonical working pattern for a CF-backed, UE-pickable block on thi
 `6d921ea` initial Hotel blocks · earlier: UE instrumentation + author-kit fixes.
 
 ## 7. Suggested next steps for a new session
-1. Decide on the Hotel Cards UE-editing question (accept DA-table workflow, or raise with DA/UE team).
+1. **Verify the Hotel Cards selector fix (§4):** commit + push (code bus deploys the JSON; no DA publish), hard-reload UE, confirm nested Hotel Card items each show the Hotel dropdown. Apply the `select`→`text` fallback only if still sealed.
 2. If keeping the snapshot: consider a small script to regenerate `scripts/utils/hotels.json` from the published fragments.
 3. Verify the full page on the **published** site once more and do a visual pass vs choicehotels.com/everhome-suites.
+4. (Tidy) Pre-existing lint error unrelated to this work: `scripts/ak.js:114` `no-continue` — `npm run lint` fails on it.
