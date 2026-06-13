@@ -37,6 +37,14 @@ function normalize(item) {
   };
 }
 
+// fetch with a hard timeout — a hung/pending request (e.g. inside an editor)
+// must never stall block decoration, which would freeze the page render.
+function timedFetch(url, ms = 4000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 // Live AEM data via the GraphQL persisted query (published site).
 async function fetchLive(path) {
   try {
@@ -45,7 +53,7 @@ async function fetchLive(path) {
     // ck: stable cache key (bump when the query shape changes) so the browser's
     // first cross-origin GET populates a per-origin, CORS-correct cache entry.
     const url = `${PUBLISH}/graphql/execute.json/${PROJECT}/${QUERY};path=${path}?ck=eh2`;
-    const resp = await fetch(url);
+    const resp = await timedFetch(url);
     if (!resp.ok) return null;
     const json = await resp.json();
     return normalize(json?.data?.everhomeHotelByPath?.item ?? json?.data?.item ?? null);
@@ -57,7 +65,7 @@ async function fetchLive(path) {
 // Same-origin snapshot, used only when the live fetch is blocked (editors).
 async function fetchSnapshot(path) {
   try {
-    const resp = await fetch(new URL('./hotels.json', import.meta.url));
+    const resp = await timedFetch(new URL('./hotels.json', import.meta.url));
     if (!resp.ok) return null;
     const data = await resp.json();
     return data[path] ?? null;
